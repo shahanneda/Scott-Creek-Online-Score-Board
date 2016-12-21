@@ -14,8 +14,8 @@ app.use(express.static(__dirname + '/public'));
 
 var homeScore = '0';
 var guestScore  = '0';
-var foulshome = '0';
-var foulsguest ='0';
+var foulshome = '00';
+var foulsguest ='00';
 var timeoutsguest = '0';
 var timeoutshome = '0';
 var period = '0';

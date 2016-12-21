@@ -97,15 +97,6 @@
 	 z-index:8;
 } 
 
- #FoulsGuest 
-{
-	 left: 606px;
-	 top: 209px;
-	 position: absolute;
-	 width: 15px;
-	 height: 19px;
-	 z-index:9;
-} 
 
  #GuestFoulsUp 
 { 
@@ -126,16 +117,15 @@
 	 height: 47px;
 	 z-index:11;
 } 
+#FoulsGuest {
+    left: 31px;
+    top: 202px;
+    position: absolute;
+    width: 15px;
+    height: 19px;
+    z-index: 9;
+}
 
- #FoulsGuest_0 
-{ 
-	 left: 576px; 
-	 top: 226px; 
-	 position: absolute; 
-	 width: 81px;
-	 height: 20px;
-	 z-index:12;
-} 
 
  #LabelFouls_0 
 { 
@@ -147,6 +137,15 @@
 	 z-index:13;
 } 
 
+ #FoulsHome
+{
+	 left: 606px;
+	 top: 209px;
+	 position: absolute;
+	 width: 15px;
+	 height: 19px;
+	 z-index:9;
+} 
  #HomeFoulsUp 
 { 
 	 left: 591px; 
@@ -337,14 +336,7 @@
 
 
 }
-#FoulsHome {
-    left: 31px;
-    top: 202px;
-    position: absolute;
-    width: 15px;
-    height: 19px;
-    z-index: 9;
-}
+
 
 #LabelFoulsHome
 {

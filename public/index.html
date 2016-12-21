@@ -22,11 +22,11 @@
 			<div id="PeriodUp"><img src="images/PeriodUp.png"></div>
 
 			<div id="LabelFouls"><img src="images/LabelFouls.png"></div>
-			<div id="FoulsHome"><h2 class="smallerText">0</h2></div>
+			
 			<div id="GuestFoulsUp"><img src="images/GuestFoulsUp.png"></div>
 			<div id="GuestFoulsDown"><img src="images/GuestFoulsDown.png"></div>
 			
-			<div id="FoulsGuest"><h2 class="smallerText">0</h2></div>
+			
 			<div id="LabelFoulsHome"><img src="images/LabelFouls.png"></div>
 			<div id="HomeFoulsUp"><img src="images/HomeFoulsUp.png"></div>
 			<div id="HomeFoulsDown"><img src="images/HomeFoulsDown.png"></div>
@@ -52,6 +52,11 @@
 			<div id="GuestScoreUp"><img src="images/GuestScoreUp.png"></div>
 			<div id="GuestScoreDown"><img src="images/GuestScoreDown.png"></div>
 			<button id="save"> Save</button>
+
+
+			<div id="FoulsGuest"><h2 class="smallerText">0</h2></div>
+
+			<div id="FoulsHome"><h2 class="smallerText">000</h2></div>
 		</div>
 
  	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -293,7 +298,8 @@ function Play(){
 	$('#Pause').fadeIn();
 	isPaused=false;
 	
-}
+}	
+// TODO HAVE THE TEXT AREA BE THE SAME SECONDS ASAND MINETS AS BEFORE
 function ToTextArea(id){
 	if(isTextArea)
 		return;
@@ -305,9 +311,10 @@ function ToTextArea(id){
 	
 	
 	isTextArea = true;
-	console.log('Changing ' + id +"to text are");
-	$('#secondsSlot').html('<textarea class="textsecondsSlot"> </textarea>');
-	$('#minutesSlot').html('<textarea class="textminutesSlot"> </textarea>');
+	var textm = $('#minutesSlot').text();
+	var texts = $('#secondsSlot').text();
+	$('#secondsSlot').html('<textarea class="textsecondsSlot">' + texts+'</textarea>');
+	$('#minutesSlot').html('<textarea class="textminutesSlot">'+textm+' </textarea>');
 }
 
 
