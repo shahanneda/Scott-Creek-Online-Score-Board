@@ -1,4 +1,5 @@
-// Setup basic express server
+
+//Needs Express and socket io
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
