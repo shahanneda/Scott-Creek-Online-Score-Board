@@ -12,23 +12,44 @@ server.listen(port, function () {
 // Routing
 app.use(express.static(__dirname + '/public'));
 
-var homeScore = '0';
-var guestScore  = '0';
-var foulshome = '00';
-var foulsguest ='00';
-var timeoutsguest = '0';
-var timeoutshome = '0';
-var period = '0';
-var time = 100000;
+var homeScore 
+var guestScore  ;
+var foulshome ;
+var foulsguest ;
+var timeoutsguest ;
+var timeoutshome ;
+var period ;
+var time ;
+var isUnderMin;
+
+function setDefaults(){
+	 homeScore = '0';
+	 guestScore  = '0';
+	 foulshome = '0';
+	 foulsguest ='0';
+	 timeoutsguest = '0';
+	 timeoutshome = '0';
+	 period = '0';
+	 time = 0;
+	 isUnderMin;
+}
+setDefaults();
 io.on('connection', function(socket){
-		io.emit('HomeScoreChange', homeScore);
-		io.emit('GuestScoreChange', guestScore);
-		io.emit('GuestTimeoutChange', timeoutsguest);
-		io.emit('HomeTimeoutChange', timeoutshome);
-		io.emit('GuestFoulChange', foulsguest);
-		io.emit('HomeFoulChange', foulshome);
-		io.emit('PeriodChange', period);
-		io.emit('TimeChange', time);
+
+		AllEmit();
+
+
+		function AllEmit(){
+			io.emit('HomeScoreChange', homeScore);
+			io.emit('GuestScoreChange', guestScore);
+			io.emit('GuestTimeoutChange', timeoutsguest);
+			io.emit('HomeTimeoutChange', timeoutshome);
+			io.emit('GuestFoulChange', foulsguest);
+			io.emit('HomeFoulChange', foulshome);
+			io.emit('PeriodChange', period);
+			io.emit('TimeChange', time);
+
+		}
 		socket.on('ping', function() {
     		socket.emit('pong');
   		});
@@ -83,8 +104,16 @@ io.on('connection', function(socket){
 			io.emit("TimeChange", newtime);
 			time = newtime;
 		});
+		socket.on('SeparatorChange', function(newIsUnderMin){
+			io.emit('SeparatorChange', newIsUnderMin);
+		    isUnderMin = newIsUnderMin;
+		});
 				
+		socket.on('reset', function(){
+			setDefaults();
+			AllEmit();
 
+		});
 
 
 });

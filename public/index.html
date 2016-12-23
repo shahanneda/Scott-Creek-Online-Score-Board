@@ -6,6 +6,12 @@
 		<link href="styles.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
+	<div id="ControlPanel">
+		<button class="button side_left "> </button>
+		<button class="button "> </button>
+		<button class="button"> </button>
+		<button class="button side_right btn-reset">Reset </button>
+	</div>
 		<div id="background">
 			<div id="Time">
 			<span id="minutesSlot">00</span>
@@ -15,7 +21,7 @@
 			<div id="Pause"><img src="images/Pause.png"></div><span id="minutesSlot"></span>
 			<div id="Play"><img src="images/Play.png"></div>
 
-			<div 
+			<div>
 			<div id="LabelPeriod"><img src="images/LabelPeriod.png"></div>
 			<div id="Period"><h2 class="smallerText">0</h2></div>
 			<div id="PeriodDown"><img src="images/PeriodDown.png"></div>
@@ -57,20 +63,44 @@
 			<div id="FoulsGuest"><h2 class="smallerText">0</h2></div>
 
 			<div id="FoulsHome"><h2 class="smallerText">000</h2></div>
+			
 		</div>
+		
+	
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/alertifyjs/1.8.0/alertify.min.js"></script>
 
- 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/default.min.css"/>
+
+
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script>
 	var isPaused;
 	var isTextArea;
+	var isUnderMin;
 	var time;
+alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,frameless:!1,maintainFocus:!0,maximizable:!0,modal:!0,movable:!0,moveBounded:!1,overflow:!0,padding:!0,pinnable:!0,pinned:!0,preventBodyShift:!1,resizable:!0,startMaximized:!1,transition:"pulse",notifier:{delay:5,position:"bottom-right"},glossary:{title:"Are You Sure?",ok:"OK",cancel:"Cancel"},theme:{input:"ajs-input",ok:"ajs-ok",cancel:"ajs-cancel"}};
+
 	    $(document).ready(function() {
 		        var socket = io();
 		        $('#Play').hide();
 
 		        $('#save').hide();
-
+		        makeUnselectable('#background');
+		        function makeUnselectable(elem) {
+					  if (typeof(elem) == 'string')
+					    elem = document.getElementById(elem);
+					  if (elem) {
+					    elem.onselectstart = function() { return false; };
+					    elem.style.MozUserSelect = "none";
+					    elem.style.KhtmlUserSelect = "none";
+						elem.unselectable = "on";
+					  }
+				}
 
 
 		        //PING
@@ -203,6 +233,11 @@
 		       	
 		    	socket.on('TimeChange', function(newtime){
 		    		time = newtime;
+		    		Pause();
+		    	});
+
+		    	socket.on('SeparatorChange', function(newIsUnderMin){
+		    		isUnderMin = newIsUnderMin;
 		    	});
 
 
@@ -249,6 +284,38 @@
 					Save();
 
 				});
+				$('#timeSeparator').click(function(){
+					if(!isTextArea){
+						return;
+					}
+				alertify.confirm("Are you sure you want to change modes?",
+				  function(){
+				  	if(!isUnderMin){
+						$('#timeSeparator').text('.');
+						isUnderMin = true;
+					}else{
+						$('#timeSeparator').text(':');
+						isUnderMin = false;
+					}
+				  },
+				  function(){
+				    return;
+				});
+					
+
+				});
+				
+				//
+
+				$('.btn-reset').click(function () {
+				alertify.confirm("Are you sure you want to reset this scoreboard?",
+				  function(){
+				  	Reset();
+				  },
+				  function(){
+				    return;
+				});
+				});
 
 		       function parseScore(socoreText, operation) {
 		          var old_score_int = parseInt(socoreText);
@@ -267,6 +334,7 @@
 
 		    function Save (){
 					$('#save').fadeOut();
+					
 					var minutesSlotText = $('.textminutesSlot').val();	
 					var secondsSlotText = $('.textsecondsSlot').val();
 					if(isNaN(parseInt(secondsSlotText))){
@@ -275,30 +343,45 @@
 					if(isNaN(parseInt(minutesSlotText))){
 						minutesSlotText = "0"
 					}
-					var finalMiliseconds = (parseInt(minutesSlotText) * 60000) + (parseInt(secondsSlotText) * 1000);
-					
+					if (secondsSlotText > 9) {
+						secondsSlotText = 9;
+					}
+					if(isUnderMin){
+						var finalMiliseconds = (parseInt(minutesSlotText, 10) * 1000) + (parseInt(secondsSlotText, 10)* 100);
+					}else{
+						var finalMiliseconds = (parseInt(minutesSlotText, 10) * 60000) + (parseInt(secondsSlotText, 10) * 1000);
+					}
 					time = finalMiliseconds;
-					Play();
+					
 					
 					isTextArea = false;
+					Pause();
 					$('#Time').css("left", "251px");
 					$('#Time').css("top", "69px");
+					$('#timeSeparator').removeClass("btn");
 					socket.emit('TimeChange', time);
+					socket.emit('SeparatorChange', isUnderMin);
 			}
 
+
+				function Reset(){
+					socket.emit('reset');
+
+				}
 	    });
 function Pause(){
-	$('#Pause').fadeOut();
-	$('#Play').fadeIn();
+	$('#Pause').fadeOut("100");
+	$('#Play').fadeIn("100");
 	isPaused=true;
 	
 }
 function Play(){
-	$('#Play').fadeOut();
-	$('#Pause').fadeIn();
+	$('#Play').fadeOut("100");
+	$('#Pause').fadeIn("100");
 	isPaused=false;
 	
 }	
+
 // TODO HAVE THE TEXT AREA BE THE SAME SECONDS ASAND MINETS AS BEFORE
 function ToTextArea(id){
 	if(isTextArea)
@@ -315,28 +398,39 @@ function ToTextArea(id){
 	var texts = $('#secondsSlot').text();
 	$('#secondsSlot').html('<textarea class="textsecondsSlot">' + texts+'</textarea>');
 	$('#minutesSlot').html('<textarea class="textminutesSlot">'+textm+' </textarea>');
+	$('#timeSeparator').addClass("btn");
 }
 
-
+//GET THE TIME
 		setInterval(function(){
 		if(isPaused){
 			return
 		}
-		if(Math.floor(time - 10) <= 0){time = 0}else{
-			time = time - 10;
+		if(Math.floor(time - 100) <= 0){time = 0}else{
+			time = time - 100;
 		}
 		
 		
-	}, 10);
+	}, 100);
 
-
+//UPDATE THE BOARD
 //TODO change the times postion if double digits
 	setInterval(function(){
 		if(isTextArea){
 			return
 		}
+
 		var timeObject =  convertMillisecondsToDigitalClock(time);
-	
+		if (timeObject.minutes == 0) {
+			isUnderMin = true;
+			$('#minutesSlot').text(timeObject.seconds);
+			$('#secondsSlot').text(timeObject.tenthseconds);
+			$('#timeSeparator').text('.');
+			
+			return;
+		}
+		isUnderMin = false;
+		$('#timeSeparator').text(':');
 		$('#minutesSlot').text(timeObject.minutes);
 		$('#secondsSlot').text(timeObject.seconds);
 
@@ -347,7 +441,7 @@ function ToTextArea(id){
 	// CONVERT MILLISECONDS TO DIGITAL CLOCK FORMAT
 	function convertMillisecondsToDigitalClock(ms) {
 	    var hours = Math.floor(ms / 3600000); // 1 Hour = 36000 Milliseconds
-	    var minutes = Math.floor((ms % 3600000) / 60000); // 1 Minutes = 60000 Milliseconds
+	    var minutes = Math.floor(ms  / 60000); // 1 Minutes = 60000 Milliseconds
 	    var seconds = Math.floor(((ms % 360000) % 60000) / 1000) ;	// 1 Second = 1000 Milliseconds
 	    var tenthseconds = Math.floor((((ms % 360000) % 60000) % 1000) / 100);
 	    var miliseconds = (((ms % 360000) % 60000) % 1000);

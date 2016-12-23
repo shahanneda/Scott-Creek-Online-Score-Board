@@ -97,15 +97,6 @@
 	 z-index:8;
 } 
 
- #FoulsHome
-{
-	 left: 606px;
-	 top: 209px;
-	 position: absolute;
-	 width: 15px;
-	 height: 19px;
-	 z-index:9;
-} 
 
  #GuestFoulsUp 
 { 
@@ -126,16 +117,15 @@
 	 height: 47px;
 	 z-index:11;
 } 
+#FoulsGuest {
+    left: 31px;
+    top: 202px;
+    position: absolute;
+    width: 15px;
+    height: 19px;
+    z-index: 9;
+}
 
- #FoulsGuest
-{
-	 /* left: 579px; */
-	 /* top: 220px; */
-	 /* position: absolute; */
-	 /* width: 81px; */
-	 /* height: 20px; */
-	 /* z-index:12; */
-} 
 
  #LabelFouls_0 
 { 
@@ -147,6 +137,15 @@
 	 z-index:13;
 } 
 
+ #FoulsHome
+{
+	 left: 606px;
+	 top: 209px;
+	 position: absolute;
+	 width: 15px;
+	 height: 19px;
+	 z-index:9;
+} 
  #HomeFoulsUp 
 { 
 	 left: 591px; 
@@ -332,19 +331,12 @@
     color: black;
 }
 
-.smallerText{font-size: 36px;}
+.smallerText{font-size: 38px;}
 .periodText{
 
 
 }
-#FoulsHome {
-    left: 31px;
-    top: 202px;
-    position: absolute;
-    width: 15px;
-    height: 19px;
-    z-index: 9;
-}
+
 
 #LabelFoulsHome
 {
@@ -383,4 +375,40 @@
   background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
+}
+
+.btn {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 50px;
+  padding: 0px 0px 0px 0px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  text-decoration: none;
+}
+
+#ControlPanel{
+
+	border-width: 10px;
+    border-color: blue;
+    border-style: solid;
+    position: absolute;
+    bottom: -3%;
+    width: 94%;
+    height: 24%;
+    margin: 40px;
+    background: lightblue;
+    text-align: center;
 }
