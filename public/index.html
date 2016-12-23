@@ -7,26 +7,33 @@
 	</head>
 	<body>
 	<div id="ControlPanel">
-		<button class="button side_left "> </button>
-		<button class="button "> </button>
-		<button class="button"> </button>
-		<button class="button side_right btn-reset">Reset </button>
+		<button class="button side_left hide checked" data-a="period">Period </button>
+		<button class="button hide checked" data-a="score">Score </button>
+		<button class="button hide checked" data-a="fouls">Fouls </button>
+		<button class="button hide checked" data-a="timeouts">Timeouts </button>
+		<button class="button hide checked" data-a="time">Time </button>
+		<button class="button side_right btn-reset ">Reset </button>
 	</div>
 		<div id="background">
-			<div id="Time">
-			<span id="minutesSlot">00</span>
-			<span id="timeSeparator">:</span>
-			<span id="secondsSlot">00</span>
+			<div id="Time" class="time">
+				<span id="minutesSlot">00</span>
+				<span id="timeSeparator">:</span>
+				<span id="secondsSlot">00</span>
+			
+			
 			</div>
-			<div id="Pause"><img src="images/Pause.png"></div><span id="minutesSlot"></span>
-			<div id="Play"><img src="images/Play.png"></div>
-
+			<div class="time">
+				<div id="Pause"><img src="images/Pause.png"></div><span id="minutesSlot"></span>
+				<div id="Play"><img src="images/Play.png"></div>
+			</div>
 			<div>
-			<div id="LabelPeriod"><img src="images/LabelPeriod.png"></div>
-			<div id="Period"><h2 class="smallerText">0</h2></div>
-			<div id="PeriodDown"><img src="images/PeriodDown.png"></div>
-			<div id="PeriodUp"><img src="images/PeriodUp.png"></div>
-
+			<div class="period">
+				<div id="LabelPeriod"><img src="images/LabelPeriod.png"></div>
+				<div id="Period"><h2 class="smallerText">0</h2></div>
+				<div id="PeriodDown"><img src="images/PeriodDown.png"></div>
+				<div id="PeriodUp"><img src="images/PeriodUp.png"></div>
+			</div>
+			<div class="fouls">
 			<div id="LabelFouls"><img src="images/LabelFouls.png"></div>
 			
 			<div id="GuestFoulsUp"><img src="images/GuestFoulsUp.png"></div>
@@ -36,7 +43,13 @@
 			<div id="LabelFoulsHome"><img src="images/LabelFouls.png"></div>
 			<div id="HomeFoulsUp"><img src="images/HomeFoulsUp.png"></div>
 			<div id="HomeFoulsDown"><img src="images/HomeFoulsDown.png"></div>
+
+			<div id="FoulsGuest"><h2 class="smallerText">0</h2></div>
+
+			<div id="FoulsHome"><h2 class="smallerText">000</h2></div>
 			
+			</div>
+			<div class="timeouts">
 			<div id="HomeLabelTimeouts"><img src="images/HomeLabelTimeouts.png"></div>
 			<div id="HomeTimeouts"><h2 class="smallerText">0</h2></div>
 			<div id="HomeTimeoutsUp"><img src="images/HomeTimeoutsUp.png"></div>
@@ -47,7 +60,8 @@
 			<div id="GuestTimeouts"><h2 class="smallerText">0</h2></div>
 			<div id="GuestTimeoutsUp"><img src="images/GuestTimeoutsUp.png"></div>
 			<div id="GuestTimeoutsDown"><img src="images/GuestTimeoutsDown.png"></div>
-			
+			</div>
+			<div class="score">
 			<div id="LabelHome"><img src="images/LabelHome.png"></div>
 			<div id="HomeScore"><h2 class="Scores">0</h2></div>
 			<div id="HomeScoreUp"><img src="images/HomeScoreUp.png"></div>
@@ -57,12 +71,11 @@
 			<div id="ScoreGuest"><h2 class="Scores">0</h2></div>
 			<div id="GuestScoreUp"><img src="images/GuestScoreUp.png"></div>
 			<div id="GuestScoreDown"><img src="images/GuestScoreDown.png"></div>
-			<button id="save"> Save</button>
+</div>			
+<button id="save"> Save</button>
 
 
-			<div id="FoulsGuest"><h2 class="smallerText">0</h2></div>
-
-			<div id="FoulsHome"><h2 class="smallerText">000</h2></div>
+			
 			
 		</div>
 		
@@ -368,7 +381,57 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 					socket.emit('reset');
 
 				}
-	    });
+
+				//Hide Code
+				$('.hide').click(function(){
+					if($(this).hasClass('checked')){
+						socket.emit('toggleField', 
+						{
+							elementClass:$(this).data('a'),
+							isVisible:false
+
+						});
+						toggle($(this).data('a'), false);
+
+					}else{
+						socket.emit('toggleField', 
+						{
+							elementClass:$(this).data('a'),
+							isVisible:true
+
+						});
+					
+					}
+					
+					
+
+
+				});
+
+				function toggle(elementClass, isVisible){
+					console.log(elementClass);
+					console.log(isVisible);
+					if(isVisible){
+						$('.' + elementClass).fadeIn();
+						$('*[data-a="'+ elementClass+'"]').addClass('checked');
+						
+						
+						
+					}
+					else if(!isVisible){
+						$('.' + elementClass).fadeOut();
+						$('*[data-a="'+ elementClass+'"]').removeClass('checked');
+					}
+
+				}
+
+				socket.on('toggleField', function(data){
+					toggle(data.elementClass, data.isVisible);
+
+				});
+
+
+	});
 function Pause(){
 	$('#Pause').fadeOut("100");
 	$('#Play').fadeIn("100");
@@ -382,7 +445,7 @@ function Play(){
 	
 }	
 
-// TODO HAVE THE TEXT AREA BE THE SAME SECONDS ASAND MINETS AS BEFORE
+
 function ToTextArea(id){
 	if(isTextArea)
 		return;

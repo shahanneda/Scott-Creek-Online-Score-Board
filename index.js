@@ -23,6 +23,9 @@ var period ;
 var time ;
 var isUnderMin;
 
+
+var hiddenFields = [];
+
 function setDefaults(){
 	 homeScore = '0';
 	 guestScore  = '0';
@@ -33,6 +36,11 @@ function setDefaults(){
 	 period = '0';
 	 time = 0;
 	 isUnderMin;
+	 hiddenFields.forEach(function(data){
+	 	data.isVisible = true;
+	 });
+
+	 
 }
 setDefaults();
 io.on('connection', function(socket){
@@ -49,8 +57,44 @@ io.on('connection', function(socket){
 			io.emit('HomeFoulChange', foulshome);
 			io.emit('PeriodChange', period);
 			io.emit('TimeChange', time);
+			hiddenFields.forEach(function(data){
+				io.emit('toggleField',data);
 
-		}
+			});
+				
+			
+
+		}	
+		socket.on('toggleField', function(data){
+				
+				var alreadyExists = false;
+
+			  	for (var i = 0, len = hiddenFields.length; i < len; i++) {
+			  		try{
+			  			if(hiddenFields[i].elementClass == data.elementClass){
+ 							hiddenFields.splice(i,1);
+ 							alreadyExists = false;
+ 						}
+			  		} catch(err){
+
+
+			  		}
+ 						
+ 										
+				}
+				if(!alreadyExists ){
+					  hiddenFields.push(data);
+				}
+			  io.emit('toggleField',data);
+			 
+			    
+			    
+				
+
+			
+			
+		});
+
 		socket.on('ping', function() {
     		socket.emit('pong');
   		});

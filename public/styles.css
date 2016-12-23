@@ -430,7 +430,7 @@ button.button {
     top: 0px;
     right: 0px;
     height: 100%;
-    width: 25%;
+    width: 16.66%;
     border-top: none;
     border-right: none;
     border-bottom: none;
@@ -450,4 +450,8 @@ button.button.side_right {
 button.button.side_left {
     border-top-left-radius: 37px !important;
     border-bottom-left-radius: 37px !important;
+}
+
+button.button.checked {
+    background: #c7c7c7;
 }
