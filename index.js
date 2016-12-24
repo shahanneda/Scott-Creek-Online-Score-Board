@@ -44,7 +44,7 @@ function setDefaults(){
 }
 setDefaults();
 io.on('connection', function(socket){
-
+		io.emit('start');
 		AllEmit();
 
 
@@ -57,6 +57,7 @@ io.on('connection', function(socket){
 			io.emit('HomeFoulChange', foulshome);
 			io.emit('PeriodChange', period);
 			io.emit('TimeChange', time);
+
 			hiddenFields.forEach(function(data){
 				io.emit('toggleField',data);
 
