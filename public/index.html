@@ -29,7 +29,7 @@
 			<div>
 			<div class="period">
 				<div id="LabelPeriod"><img src="images/LabelPeriod.png"></div>
-				<div id="Period"><h2 class="smallerText">0</h2></div>
+				<div id="Period" class="alreadyAdjustedSingleClient"><h2 class="smallerText">0</h2></div>
 				<div id="PeriodDown"><img src="images/PeriodDown.png"></div>
 				<div id="PeriodUp"><img src="images/PeriodUp.png"></div>
 			</div>
@@ -220,18 +220,77 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 
 		       // PEROIOD
 		       	$('#PeriodDown').on('click', function () {
+		       		
 		       		var new_score =	 parseScore($('#Period').children('h2').text(),"+");
 			       $('#Period').children('h2').html(new_score);
+			       // if we already got it down there, then we can do it here
+			       if (parseInt(new_score) == 10 && !$('#Period').hasClass('alreadyAdjustedDoubleServer')  ) {
+			       		$('#Period').css('left', parseInt($('#Period').css("left"))-9);
+			       		$('#Period').addClass("alreadyAdjustedDoubleClient");
+			       		 //$('#Period').removeClass("alreadyAdjustedSingleClient");
+			       }
 			       socket.emit('PeriodChange', new_score); 		        
 		       });
 		       $('#PeriodUp').on('click', function () {	
 			       var new_score =	 parseScore($('#Period').children('h2').text(),"-");
 			       $('#Period').children('h2').html(new_score);
+			      if (parseInt(new_score) == 9 && !$('#Period').hasClass('alreadyAdjustedSingleServer')  ) {
+			       		$('#Period').css('left', parseInt($('#Period').css("left"))+9);
+			       		$('#Period').addClass("alreadyAdjustedSingleClient");
+			       		//$('#Period').removeClass("alreadyAdjustedDoubleClient");
+			       }
 			       socket.emit('PeriodChange', new_score); 
 		       });		     
 		       socket.on('PeriodChange', function(new_score){		      		   
-		          $('#Period').children('h2').html(new_score);
+		         	 $('#Period').children('h2').html(new_score);
+		         	 
+		         //	 IF WE DONT ALREADY GET IT UP THERE,  THEN WE ADJUST IT
+		          	if ( !$('#Period').hasClass('alreadyAdjustedDoubleClient') ){
+
+		          			 if($('#Period').hasClass('alreadyAdjustedDoubleServer')){
+		          			 	
+		          			 	console.log('removing class');
+		          			 	$('#Period').removeClass('alreadyAdjustedDoubleServer');
+		          			 	$('#Period').addClass("alreadyAdjustedDoubleClient");
+		          			 	return;
+		          			 }
+
+							 if (parseInt(new_score) >= 10 ) {
+				     		 $('#Period').css('left', parseInt($('#Period').css("left"))-9);
+				     		  $('#Period').addClass("alreadyAdjustedDoubleServer");
+				     			// $('#Period').removeClass("alreadyAdjustedDouble");
+			       			}
+
+		          	}
+		          	if ( !$('#Period').hasClass('alreadyAdjustedSingleClient') ){
+
+		          			 if($('#Period').hasClass('alreadyAdjustedSingleServer')){
+		          			 	
+		          			 	console.log('removing class');
+		          			 	$('#Period').removeClass('alreadyAdjustedSingeServer');
+		          			 	$('#Period').addClass("alreadyAdjustedSingleClient");
+		          			 	return;
+		          			 }
+		          			 if ($('#Period').hasClass('alreadyAdjustedDoubleClient')) {
+		          			 	$('#Period').removeClass('alreadyAdjustedDoubleClient');
+		          			 }
+		          			 if ($('#Period').hasClass('alreadyAdjustedSingleClient')) {
+		          			 	$('#Period').removeClass('alreadyAdjustedSingleClient');
+		          			 }
+							 if (parseInt(new_score) <= 10 ) {
+				     		 $('#Period').css('left', parseInt($('#Period').css("left"))+9);
+				     		  $('#Period').addClass("alreadyAdjustedSingleServer");
+				     			// $('#Period').removeClass("alreadyAdjustedDouble");
+			       			}
+
+		          	}
+
+
+
+
 		       });		       
+
+
 
 		       socket.on("TimePlay", function(newtime){
 		       	time = newtime;
@@ -500,7 +559,7 @@ function ToTextArea(id){
 	}, 100);
 
 
-
+	//CHECK IF IS IN SOUBLE DIGITS
 	// CONVERT MILLISECONDS TO DIGITAL CLOCK FORMAT
 	function convertMillisecondsToDigitalClock(ms) {
 	    var hours = Math.floor(ms / 3600000); // 1 Hour = 36000 Milliseconds
