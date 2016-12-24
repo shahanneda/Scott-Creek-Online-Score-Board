@@ -438,6 +438,14 @@ button.button {
     font-size: 50px;
     text-align: center;
 }
+@media(max-width: 1324px){
+	button.button {
+  
+    font-size: 25px;
+    
+}
+
+}
 button.button:hover {
   background: #bfbfbf;
 }
