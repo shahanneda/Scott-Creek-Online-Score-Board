@@ -347,10 +347,10 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 		       	$(name).addClass("ConvertedToSingleDigits");
 		       	$(name).removeClass('ConvertedToDoubleDigits');
 		       	var amount = 9;
-		       /*	if(name == "#HomeScore" || '#ScoreGuest'){
+		       	if(name == "#HomeScore" || name == '#ScoreGuest'){
 		       		amount= 16;
-		       	}*/
-
+		       	}
+		       	console.log(amount);
 		      	 $(name).css('left',parseInt($(name).css('left') ) + amount);
 		       }
 
