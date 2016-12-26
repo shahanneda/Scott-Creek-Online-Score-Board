@@ -1,0 +1,465 @@
+ body {
+	margin: 0;
+	padding: 0;
+ }
+ 
+ #background 
+{
+	 left: 0px;
+	 top: 0px;
+	 position: relative;
+	 margin-left: auto;
+	 margin-right: auto;
+	 width: 680px;
+	 height: 423px;
+	 overflow: hidden;
+	 z-index:0;
+	} 
+
+ #Time 
+{
+	 left: 251px;
+	 top: 69px;
+	 position: absolute;
+	 width: 881px;
+	 height: 42px;
+	 z-index:1;
+	 font-size: 75px;
+} 
+
+ #Pause 
+{
+	 left: 294px;
+	 top: 10px;
+	 position: absolute;
+	 width: 50px;
+	 height: 64px;
+	 z-index:2;
+} 
+
+ #Play 
+{
+	 left: 294px;
+	 top: 10px;
+	 position: absolute;
+	 width: 52px;
+	 height: 64px;
+	 z-index:3;
+} 
+
+ #LabelPeriod 
+{ 
+	 left: 268px; 
+	 top: 202px; 
+	 position: absolute; 
+	 width: 95px;
+	 height: 20px;
+	 z-index:4;
+} 
+
+ #Period 
+{
+	 left: 308px;
+	 top: 184px;
+	 position: absolute;
+	 width: 15px;
+	 height: 19px;
+	 z-index:5;
+} 
+
+ #PeriodDown 
+{ 
+	 left: 290px; 
+	 top: 146px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:6;
+} 
+
+ #PeriodUp 
+{ 
+	 left: 288px; 
+	 top: 252px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:7;
+} 
+
+ #LabelFouls 
+{ 
+	 left: 0px; 
+	 top: 219px; 
+	 position: absolute; 
+	 width: 81px;
+	 height: 20px;
+	 z-index:8;
+} 
+
+
+ #GuestFoulsUp 
+{ 
+	 left: 15px; 
+	 top: 163px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:10;
+} 
+
+ #GuestFoulsDown 
+{ 
+	 left: 13px; 
+	 top: 269px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:11;
+} 
+#FoulsGuest {
+    left: 31px;
+    top: 202px;
+    position: absolute;
+    width: 15px;
+    height: 19px;
+    z-index: 9;
+}
+
+
+ #LabelFouls_0 
+{ 
+	 left: 610px; 
+	 top: 251px; 
+	 position: absolute; 
+	 width: 15px;
+	 height: 19px;
+	 z-index:13;
+} 
+
+ #FoulsHome
+{
+	 left: 606px;
+	 top: 209px;
+	 position: absolute;
+	 width: 15px;
+	 height: 19px;
+	 z-index:9;
+} 
+ #HomeFoulsUp 
+{ 
+	 left: 591px; 
+	 top: 170px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:14;
+} 
+
+ #HomeFoulsDown 
+{ 
+	 left: 589px; 
+	 top: 276px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:15;
+} 
+
+ #HomeLabelTimeouts 
+{ 
+	 left: 340px; 
+	 top: 345px; 
+	 position: absolute; 
+	 width: 100px;
+	 height: 15px;
+	 z-index:16;
+} 
+
+ #HomeTimeouts 
+{
+	 left: 380px;
+	 top: 320px;
+	 position: absolute;
+	 width: 12px;
+	 height: 16px;
+	 z-index:17;
+} 
+
+ #HomeTimeoutsUp 
+{ 
+	 left: 369px; 
+	 top: 301px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:18;
+} 
+
+ #HomeTimeoutsDown 
+{ 
+	 left: 367px; 
+	 top: 386px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:19;
+} 
+
+ #GuestLabelTimeouts 
+{ 
+	 left: 210px; 
+	 top: 345px; 
+	 position: absolute; 
+	 width: 100px;
+	 height: 15px;
+	 z-index:20;
+} 
+
+ #GuestTimeouts 
+{
+	 left: 249px;
+	 top: 320px;
+	 position: absolute;
+	 width: 12px;
+	 height: 16px;
+	 z-index:21;
+} 
+
+ #GuestTimeoutsUp 
+{ 
+	 left: 239px; 
+	 top: 301px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:22;
+} 
+
+ #GuestTimeoutsDown 
+{ 
+	 left: 237px; 
+	 top: 386px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:23;
+} 
+
+ #LabelHome 
+{ 
+	 left: 413px; 
+	 top: 186px; 
+	 position: absolute; 
+	 width: 135px;
+	 height: 34px;
+	 z-index:24;
+} 
+
+ #HomeScore 
+{
+	 left: 462px;
+	 top: 153px;
+	 position: absolute;
+	 width: 55px;
+	 height: 33px;
+	 z-index:25;
+} 
+
+ #HomeScoreUp 
+{ 
+	 left: 434px; 
+	 top: 86px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:26;
+} 
+
+ #HomeScoreDown 
+{
+	 left: 431px;
+	 top: 273px;
+	 position: absolute;
+	 width: 96px;
+	 height: 84px;
+	 z-index:27;
+} 
+
+ #LabelGuest 
+{ 
+	 left: 99px; 
+	 top: 177px; 
+	 position: absolute; 
+	 width: 131px;
+	 height: 34px;
+	 z-index:28;
+} 
+
+ #ScoreGuest 
+{
+	 left: 147px;
+	 top: 152px;
+	 position: absolute;
+	 width: 55px;
+	 height: 33px;
+	 z-index:29;
+} 
+
+ #GuestScoreUp 
+{ 
+	 left: 117px; 
+	 top: 86px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:30;
+} 
+
+ #GuestScoreDown 
+{ 
+	 left: 115px; 
+	 top: 274px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:31;
+} 
+
+.Scores {
+    font-size: 68px;
+    color: black;
+}
+
+.smallerText{font-size: 38px;}
+.periodText{
+
+
+}
+
+
+#LabelFoulsHome
+{
+	 left: 580px;
+	 top: 228px;
+	 position: absolute;
+	 width: 15px;
+	 height: 19px;
+	 z-index:13;
+} 
+#save {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  color: #ffffff;
+  font-size: 60px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  position: absolute;
+  left: 230px;
+  z-index: 15;
+  top: 151px;
+}
+
+#save:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+.btn {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 50px;
+  padding: 0px 0px 0px 0px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  text-decoration: none;
+}
+
+.btn-reset:hover{
+	background-color: #f13030 !important;
+	color:white;
+
+}
+#ControlPanel{
+
+	border-width: 10px;
+    border-color: black;
+    border-style: solid;
+    position: absolute;
+    bottom: -3%;
+    
+    height: 10%;
+    /*margin: 40px;*/
+    background: white;
+    text-align: center;
+    left: 0px;
+    right: 0px;
+    border-radius: 52px;
+}
+
+button.button {
+  background: white;
+    color: black;
+    float: left;
+    position: relative;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 16.66%;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0px;
+    font-size: 50px;
+    text-align: center;
+}
+@media(max-width: 1324px){
+	button.button {
+  
+    font-size: 25px;
+    
+}
+
+}
+button.button:hover {
+  background: #bfbfbf;
+}
+
+button.button.side_right {
+    border-top-right-radius: 37px !important;
+    border-bottom-right-radius: 37px !important;
+}
+
+button.button.side_left {
+    border-top-left-radius: 37px !important;
+    border-bottom-left-radius: 37px !important;
+}
+
+button.button.checked {
+    background: #c7c7c7;
+}

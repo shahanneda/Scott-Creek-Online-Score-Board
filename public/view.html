@@ -1,0 +1,707 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>psdtowebEditInterfacessssNoneRast329.psd</title>
+		<link href="styles.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+	<div id="ControlPanel">
+		<button class="button side_left hide checked" data-a="period">Period </button>
+		<button class="button hide checked" data-a="score">Score </button>
+		<button class="button hide checked" data-a="fouls">Fouls </button>
+		<button class="button hide checked" data-a="timeouts">Timeouts </button>
+		<button class="button hide checked" data-a="time">Time </button>
+		<button class="button side_right btn-reset ">Reset </button>
+	</div>
+		<div id="background">
+			<div id="Time" class="time">
+				<span id="minutesSlot">00</span>
+				<span id="timeSeparator">:</span>
+				<span id="secondsSlot">00</span>
+			
+			
+			</div>
+			<div class="time">
+				<div id="Pause"><img src="images/Pause.png"></div><span id="minutesSlot"></span>
+				<div id="Play"><img src="images/Play.png"></div>
+			</div>
+			<div>
+			<div class="period">
+				<div id="LabelPeriod"><img src="images/LabelPeriod.png"></div>
+				<div id="Period"><h2 class="smallerText">0</h2></div>
+				<div id="PeriodDown"><img src="images/PeriodDown.png"></div>
+				<div id="PeriodUp"><img src="images/PeriodUp.png"></div>
+			</div>
+			<div class="fouls">
+			<div id="LabelFouls"><img src="images/LabelFouls.png"></div>
+			
+			<div id="GuestFoulsUp"><img src="images/GuestFoulsUp.png"></div>
+			<div id="GuestFoulsDown"><img src="images/GuestFoulsDown.png"></div>
+			
+			
+			<div id="LabelFoulsHome"><img src="images/LabelFouls.png"></div>
+			<div id="HomeFoulsUp"><img src="images/HomeFoulsUp.png"></div>
+			<div id="HomeFoulsDown"><img src="images/HomeFoulsDown.png"></div>
+
+			<div id="FoulsGuest"><h2 class="smallerText">0</h2></div>
+
+			<div id="FoulsHome"><h2 class="smallerText">000</h2></div>
+			
+			</div>
+			<div class="timeouts">
+			<div id="HomeLabelTimeouts"><img src="images/HomeLabelTimeouts.png"></div>
+			<div id="HomeTimeouts"><h2 class="smallerText">0</h2></div>
+			<div id="HomeTimeoutsUp"><img src="images/HomeTimeoutsUp.png"></div>
+			<div id="HomeTimeoutsDown"><img src="images/HomeTimeoutsDown.png"></div>
+			
+
+			<div id="GuestLabelTimeouts"><img src="images/GuestLabelTimeouts.png"></div>
+			<div id="GuestTimeouts"><h2 class="smallerText">0</h2></div>
+			<div id="GuestTimeoutsUp"><img src="images/GuestTimeoutsUp.png"></div>
+			<div id="GuestTimeoutsDown"><img src="images/GuestTimeoutsDown.png"></div>
+			</div>
+			<div class="score">
+			<div id="LabelHome"><img src="images/LabelHome.png"></div>
+			<div id="HomeScore"><h2 class="Scores">0</h2></div>
+			<div id="HomeScoreUp"><img src="images/HomeScoreUp.png"></div>
+			<div id="HomeScoreDown"><img src="images/HomeScoreDown.png"></div>
+			
+			<div id="LabelGuest"><img src="images/LabelGuest.png"></div>
+			<div id="ScoreGuest"><h2 class="Scores">0</h2></div>
+			<div id="GuestScoreUp"><img src="images/GuestScoreUp.png"></div>
+			<div id="GuestScoreDown"><img src="images/GuestScoreDown.png"></div>
+</div>			
+<button id="save"> Save</button>
+
+
+			
+			
+		</div>
+		
+	
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/alertifyjs/1.8.0/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/default.min.css"/>
+
+
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+	var isPaused;
+	var isTextArea;
+	var isUnderMin;
+	var time;
+alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,frameless:!1,maintainFocus:!0,maximizable:!0,modal:!0,movable:!0,moveBounded:!1,overflow:!0,padding:!0,pinnable:!0,pinned:!0,preventBodyShift:!1,resizable:!0,startMaximized:!1,transition:"pulse",notifier:{delay:5,position:"bottom-right"},glossary:{title:"Are You Sure?",ok:"OK",cancel:"Cancel"},theme:{input:"ajs-input",ok:"ajs-ok",cancel:"ajs-cancel"}};
+
+	    $(document).ready(function() {
+		        var socket = io();
+		        $('#Play').hide();
+
+		        $('#save').hide();
+		        makeUnselectable('#background');
+		        function makeUnselectable(elem) {
+					  if (typeof(elem) == 'string')
+					    elem = document.getElementById(elem);
+					  if (elem) {
+					    elem.onselectstart = function() { return false; };
+					    elem.style.MozUserSelect = "none";
+					    elem.style.KhtmlUserSelect = "none";
+						elem.unselectable = "on";
+					  }
+				}
+
+
+		        //PING
+		        
+
+				socket.on('disconnect', function(){
+				        console.log('user disconnected');
+				});
+		        setInterval(function() {
+  					startTime = Date.now();
+  					socket.emit('ping');
+				}, 2000);
+
+				socket.on('pong', function() {
+				  latency = Date.now() - startTime;
+				  console.log(latency);
+				});
+				
+				//HOME SCORE		       
+		       $('#HomeScoreUp').on('click', function () {		     
+		       	var new_score =	 parseScore($('#HomeScore').children('h2').text(),"+");
+			       $('#HomeScore').children('h2').html(new_score);
+			       socket.emit('HomeScoreChange', new_score); 	         
+		       });
+		       $('#HomeScoreDown').on('click', function () {		
+		       	var new_score =	 parseScore($('#HomeScore').children('h2').text(),"-");
+			       $('#HomeScore').children('h2').html(new_score);
+			       socket.emit('HomeScoreChange', new_score);       	         
+		       });		     
+		        socket.on('HomeScoreChange', function(new_score){		         
+		          $('#HomeScore').children('h2').html(new_score);
+		        });
+
+		        //GUEST SCORE
+ 				$('#GuestScoreUp').on('click', function () {
+		       		var new_score =	 parseScore($('#ScoreGuest').children('h2').text(),"+");
+			       $('#ScoreGuest').children('h2').html(new_score);
+			       socket.emit('GuestScoreChange', new_score); 		        
+		       });
+		       $('#GuestScoreDown').on('click', function () {	
+			       var new_score =	 parseScore($('#ScoreGuest').children('h2').text(),"-");
+			       $('#ScoreGuest').children('h2').html(new_score);
+			       socket.emit('GuestScoreChange', new_score); 
+		       });		     
+		       socket.on('GuestScoreChange', function(new_score){		      		   
+		          $('#ScoreGuest').children('h2').html(new_score);
+		       });
+		       // FOULS HOME
+		       	$('#HomeFoulsUp').on('click', function () {
+		       		var new_score =	 parseScore($('#FoulsHome').children('h2').text(),"+");
+			       $('#FoulsHome').children('h2').html(new_score);
+			       socket.emit('HomeFoulChange', new_score); 		        
+		       });
+		       $('#HomeFoulsDown').on('click', function () {	
+			       var new_score =	 parseScore($('#FoulsHome').children('h2').text(),"-");
+			       $('#FoulsHome').children('h2').html(new_score);
+			       socket.emit('HomeFoulChange', new_score); 
+		       });		     
+		       socket.on('HomeFoulChange', function(new_score){		      		   
+		          $('#FoulsHome').children('h2').html(new_score);
+		       });
+		       //FOULS GUEST
+		       	$('#GuestFoulsUp').on('click', function () {
+		       		var new_score =	 parseScore($('#FoulsGuest').children('h2').text(),"+");
+			       $('#FoulsGuest').children('h2').html(new_score);
+			       socket.emit('GuestFoulChange', new_score); 		        
+		       });
+		       $('#GuestFoulsDown').on('click', function () {	
+			       var new_score =	 parseScore($('#FoulsGuest').children('h2').text(),"-");
+			       $('#FoulsGuest').children('h2').html(new_score);
+			       socket.emit('GuestFoulChange', new_score); 
+		       });		     
+		       socket.on('GuestFoulChange', function(new_score){		      		   
+		          $('#FoulsGuest').children('h2').html(new_score);
+		       });
+		       // TIMEOUTS HOME
+		       	$('#HomeTimeoutsUp').on('click', function () {
+		       		var new_score =	 parseScore($('#HomeTimeouts').children('h2').text(),"+");
+			       $('#HomeTimeouts').children('h2').html(new_score);
+			       socket.emit('HomeTimeoutChange', new_score); 		        
+		       });
+		       $('#HomeTimeoutsDown').on('click', function () {	
+			       var new_score =	 parseScore($('#HomeTimeouts').children('h2').text(),"-");
+			       $('#HomeTimeouts').children('h2').html(new_score);
+			       socket.emit('HomeTimeoutChange', new_score); 
+		       });		     
+		       socket.on('HomeTimeoutChange', function(new_score){		      		   
+		          $('#HomeTimeouts').children('h2').html(new_score);
+		       });
+
+		       //Timeouts Guest
+		       	$('#GuestTimeoutsUp').on('click', function () {
+		       		var new_score =	 parseScore($('#GuestTimeouts').children('h2').text(),"+");
+			       $('#GuestTimeouts').children('h2').html(new_score);
+			       socket.emit('GuestTimeoutChange', new_score); 		        
+		       });
+		       $('#GuestTimeoutsDown').on('click', function () {	
+			       var new_score =	 parseScore($('#GuestTimeouts').children('h2').text(),"-");
+			       $('#GuestTimeouts').children('h2').html(new_score);
+			       socket.emit('GuestTimeoutChange', new_score); 
+		       });		     
+		       socket.on('GuestTimeoutChange', function(new_score){		      		   
+		          $('#GuestTimeouts').children('h2').html(new_score);
+		       });
+
+		       // PEROIOD
+		       	$('#PeriodDown').on('click', function () {
+		       		var new_score =	 parseScore($('#Period').children('h2').text(),"+");
+			       $('#Period').children('h2').html(new_score);
+			       
+			       socket.emit('PeriodChange', new_score); 		        
+		       });
+		       $('#PeriodUp').on('click', function () {	
+			       var new_score =	 parseScore($('#Period').children('h2').text(),"-");
+			       $('#Period').children('h2').html(new_score);
+			        
+			       socket.emit('PeriodChange', new_score); 
+		       });		     
+		       socket.on('PeriodChange', function(new_score){		      		   
+		          $('#Period').children('h2').html(new_score);
+		       });	
+
+
+		       socket.on("start", function(){
+		       		if (parseInt($('#Period').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#Period').addClass("ConvertedToDoubleDigits");
+		       			$('#Period').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#Period').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#Period').addClass("ConvertedToSingleDigits");
+		       			$('#Period').removeClass('ConvertedToDoubleDigits');
+		       		}	
+
+		       		if (parseInt($('#GuestTimeouts').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#GuestTimeouts').addClass("ConvertedToDoubleDigits");
+		       			$('#GuestTimeouts').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#GuestTimeouts').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#GuestTimeouts').addClass("ConvertedToSingleDigits");
+		       			$('#GuestTimeouts').removeClass('ConvertedToDoubleDigits');
+		       		}
+
+		       		if (parseInt($('#HomeTimeouts').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#HomeTimeouts').addClass("ConvertedToDoubleDigits");
+		       			$('#HomeTimeouts').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#HomeTimeouts').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#HomeTimeouts').addClass("ConvertedToSingleDigits");
+		       			$('#HomeTimeouts').removeClass('ConvertedToDoubleDigits');
+		       		}
+
+		       		if (parseInt($('#FoulsGuest').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#FoulsGuest').addClass("ConvertedToDoubleDigits");
+		       			$('#FoulsGuest').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#FoulsGuest').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#FoulsGuest').addClass("ConvertedToSingleDigits");
+		       			$('#FoulsGuest').removeClass('ConvertedToDoubleDigits');
+		       		}
+
+		       		if (parseInt($('#FoulsHome').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#FoulsHome').addClass("ConvertedToDoubleDigits");
+		       			$('#FoulsHome').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#FoulsHome').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#FoulsHome').addClass("ConvertedToSingleDigits");
+		       			$('#FoulsHome').removeClass('ConvertedToDoubleDigits');
+		       		}
+
+		       		if (parseInt($('#HomeScore').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#HomeScore').addClass("ConvertedToDoubleDigits");
+		       			$('#HomeScore').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#HomeScore').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#HomeScore').addClass("ConvertedToSingleDigits");
+		       			$('#HomeScore').removeClass('ConvertedToDoubleDigits');
+		       		}
+
+		       		if (parseInt($('#ScoreGuest').children('h2').text()) >= 10) {
+		       			//convertToDoubleDigits('#Period');
+		       			$('#ScoreGuest').addClass("ConvertedToDoubleDigits");
+		       			$('#ScoreGuest').removeClass('ConvertedToSingleDigits');
+		       		}	
+		       		if (parseInt($('#ScoreGuest').children('h2').text()) <= 9) {
+		       			//	convertToSingleDigits('#Period');
+		       			$('#ScoreGuest').addClass("ConvertedToSingleDigits");
+		       			$('#ScoreGuest').removeClass('ConvertedToDoubleDigits');
+		       		}		       		
+
+		       });
+
+		       
+
+
+
+
+
+		       function convertToDoubleDigits(name) {
+		       	if ($(name).hasClass('ConvertedToDoubleDigits')) {
+		       		return;
+		       	}
+		       	console.log('converting to double digits');
+		       	$(name).addClass("ConvertedToDoubleDigits");
+		       	$(name).removeClass('ConvertedToSingleDigits');
+		       	var amount = 9;
+		       	if(name == "#HomeScore" || name == '#ScoreGuest'){
+		       		amount= 16;
+		       	}
+
+		       	$(name).css('left', parseInt($(name).css('left')) - amount );
+
+		       }
+
+		       function convertToSingleDigits(name) {
+		       	if ($(name).hasClass('ConvertedToSingleDigits')) {
+					return;
+		       	}
+		       	console.log('Converiting ti single digits');
+		       	$(name).addClass("ConvertedToSingleDigits");
+		       	$(name).removeClass('ConvertedToDoubleDigits');
+		       	var amount = 9;
+		       	if(name == "#HomeScore" || name == '#ScoreGuest'){
+		       		amount= 16;
+		       	}
+		       	console.log(amount);
+		      	 $(name).css('left',parseInt($(name).css('left') ) + amount);
+		       }
+
+		       setInterval(function(){
+		       		if (parseInt($('#Period').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#Period');
+		       		}	
+		       		if (parseInt($('#Period').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#Period');
+		       		}	
+		       		
+		       		if (parseInt($('#GuestTimeouts').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#GuestTimeouts');
+		       		}	
+		       		if (parseInt($('#GuestTimeouts').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#GuestTimeouts');
+		       		}	
+
+		       		if (parseInt($('#HomeTimeouts').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#HomeTimeouts');
+		       		}	
+		       		if (parseInt($('#HomeTimeouts').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#HomeTimeouts');
+		       		}	
+
+
+		       		if (parseInt($('#FoulsGuest').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#FoulsGuest');
+		       		}	
+		       		if (parseInt($('#FoulsGuest').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#FoulsGuest');
+		       		}
+
+		       		if (parseInt($('#FoulsHome').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#FoulsHome');
+		       		}	
+		       		if (parseInt($('#FoulsHome').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#FoulsHome');
+		       		}
+
+
+		       		if (parseInt($('#ScoreGuest').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#ScoreGuest');
+		       		}	
+		       		if (parseInt($('#HomeScore').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#HomeScore');
+		       		}
+
+		       		if (parseInt($('#HomeScore').children('h2').text()) >= 10) {
+		       			convertToDoubleDigits('#HomeScore');
+		       		}	
+		       		if (parseInt($('#ScoreGuest').children('h2').text()) <= 9) {
+		       			convertToSingleDigits('#ScoreGuest');
+		       		}
+
+
+		       }, 100);
+
+		       socket.on("TimePlay", function(newtime){
+		       	time = newtime;
+		       		Play();
+		       });
+		       
+		       
+		       socket.on('TimePause', function(newtime){
+		       	time = newtime;
+				Pause();
+		       });
+		       	
+		    	socket.on('TimeChange', function(newtime){
+		    		time = newtime;
+		    		
+		    	});
+
+		    	socket.on('SeparatorChange', function(newIsUnderMin){
+		    		isUnderMin = newIsUnderMin;
+		    	});
+
+
+		        $('#Pause').click(function(){
+					if(isTextArea)
+		        		return
+					console.log('puase clicked');
+					socket.emit("TimePause", time);
+					Pause();
+		       	
+
+		        });
+
+		        $('#Play').click(function(){
+		        	if(isTextArea){
+		        		return
+		        	}
+					console.log('Play clicked');
+					socket.emit('TimePlay', time);
+					Play();	       
+		        });
+
+				$('#minutesSlot').click(function(){
+					if(isTextArea){
+		        		return
+		        	}
+					Pause();
+					
+					ToTextArea('minutesSlot');
+					ToTextArea('secondsSlot');
+				});
+
+				$('#secondsSlot').click(function(){
+					if(isTextArea){
+		        		return
+		        	}
+					
+					Pause();
+					ToTextArea('secondsSlot');
+					ToTextArea('minutesSlot');
+				});
+
+				$('#save').click(function(){
+					Save();
+
+				});
+				$('#timeSeparator').click(function(){
+					if(!isTextArea){
+						return;
+					}
+				alertify.confirm("Are you sure you want to change modes?",
+				  function(){
+				  	if(!isUnderMin){
+						$('#timeSeparator').text('.');
+						isUnderMin = true;
+					}else{
+						$('#timeSeparator').text(':');
+						isUnderMin = false;
+					}
+				  },
+				  function(){
+				    return;
+				});
+					
+
+				});
+				
+				//
+
+				$('.btn-reset').click(function () {
+				alertify.confirm("Are you sure you want to reset this scoreboard?",
+				  function(){
+				  	Reset();
+				  },
+				  function(){
+				    return;
+				});
+				});
+
+		       function parseScore(socoreText, operation) {
+		          var old_score_int = parseInt(socoreText);
+		          if (operation == "+"){var new_score = old_score_int + 1};
+		          if (operation == "-"){var new_score = old_score_int - 1};
+		          if(new_score < 0){new_score = 0};
+		          
+		          return new_score;
+		        }
+
+		        document.addEventListener('gesturestart', function (e) {
+    				e.preventDefault();
+				});
+
+
+
+		    function Save (){
+					$('#save').fadeOut();
+					
+					var minutesSlotText = $('.textminutesSlot').val();	
+					var secondsSlotText = $('.textsecondsSlot').val();
+					if(isNaN(parseInt(secondsSlotText))){
+						secondsSlotText = "0";
+					}
+					if(isNaN(parseInt(minutesSlotText))){
+						minutesSlotText = "0";
+					}
+					if (secondsSlotText > 9 && isUnderMin) {
+						secondsSlotText = 9;
+					}
+					if(isUnderMin){
+						var finalMiliseconds = (parseInt(minutesSlotText, 10) * 1000) + (parseInt(secondsSlotText, 10)* 100);
+					}else{
+						var finalMiliseconds = (parseInt(minutesSlotText, 10) * 60000) + (parseInt(secondsSlotText, 10) * 1000);
+					}
+					time = finalMiliseconds;
+					
+					
+					isTextArea = false;
+					Play();
+					$('#Time').css("left", "251px");
+					$('#Time').css("top", "69px");
+					$('#timeSeparator').removeClass("btn");
+					socket.emit('TimeChange', time);
+					socket.emit('SeparatorChange', isUnderMin);
+			}
+
+
+				function Reset(){
+					socket.emit('reset');
+
+				}
+
+				//Hide Code
+				$('.hide').click(function(){
+					if($(this).hasClass('checked')){
+						socket.emit('toggleField', 
+						{
+							elementClass:$(this).data('a'),
+							isVisible:false
+
+						});
+						toggle($(this).data('a'), false);
+
+					}else{
+						socket.emit('toggleField', 
+						{
+							elementClass:$(this).data('a'),
+							isVisible:true
+
+						});
+					
+					}
+					
+					
+
+
+				});
+
+				function toggle(elementClass, isVisible){
+					console.log(elementClass);
+					console.log(isVisible);
+					if(isVisible){
+						$('.' + elementClass).fadeIn();
+						$('*[data-a="'+ elementClass+'"]').addClass('checked');
+						
+						
+						
+					}
+					else if(!isVisible){
+						$('.' + elementClass).fadeOut();
+						$('*[data-a="'+ elementClass+'"]').removeClass('checked');
+					}
+
+				}
+
+				socket.on('toggleField', function(data){
+					toggle(data.elementClass, data.isVisible);
+
+				});
+
+
+	});
+function Pause(){
+	$('#Pause').fadeOut("100");
+	$('#Play').fadeIn("100");
+	isPaused=true;
+	
+}
+function Play(){
+	$('#Play').fadeOut("100");
+	$('#Pause').fadeIn("100");
+	isPaused=false;
+	
+}	
+
+
+function ToTextArea(id){
+	if(isTextArea)
+		return;
+	$('#Play').hide();
+	$('#Pause').hide();
+	$('#save').show();
+	$('#Time').css("left", "138px");
+	$('#Time').css("top", "-1px");
+	
+	
+	isTextArea = true;
+	var textm = $('#minutesSlot').text();
+	var texts = $('#secondsSlot').text();
+	$('#secondsSlot').html('<textarea class="textsecondsSlot">' + texts+'</textarea>');
+	$('#minutesSlot').html('<textarea class="textminutesSlot">'+textm+' </textarea>');
+	$('#timeSeparator').addClass("btn");
+}
+
+//GET THE TIME
+		setInterval(function(){
+		if(isPaused){
+			return
+		}
+		if(Math.floor(time - 100) <= 0){time = 0}else{
+			time = time - 100;
+		}
+		
+		
+	}, 100);
+
+//UPDATE THE BOARD
+//TODO change the times postion if double digits
+	setInterval(function(){
+
+		if(isTextArea){
+			return
+		}
+
+		var timeObject =  convertMillisecondsToDigitalClock(time);
+		if (timeObject.minutes >= 10) {
+			console.log("aYe");
+			$('#Time').css('left', '213');
+		}
+		if (timeObject.minutes == 0) {
+			isUnderMin = true;
+			$('#minutesSlot').text(timeObject.seconds);
+			$('#secondsSlot').text(timeObject.tenthseconds);
+			$('#Time').css('left', '237');
+			$('#timeSeparator').text('.');
+			
+			return;
+		}
+		isUnderMin = false;
+		$('#timeSeparator').text(':');
+		$('#minutesSlot').text(timeObject.minutes);
+		$('#secondsSlot').text(timeObject.seconds);
+
+	}, 100);
+
+
+
+	// CONVERT MILLISECONDS TO DIGITAL CLOCK FORMAT
+	function convertMillisecondsToDigitalClock(ms) {
+	    var hours = Math.floor(ms / 3600000); // 1 Hour = 36000 Milliseconds
+	    var minutes = Math.floor(ms  / 60000); // 1 Minutes = 60000 Milliseconds
+	    var seconds = Math.floor(((ms % 360000) % 60000) / 1000) ;	// 1 Second = 1000 Milliseconds
+	    var tenthseconds = Math.floor((((ms % 360000) % 60000) % 1000) / 100);
+	    var miliseconds = (((ms % 360000) % 60000) % 1000);
+	        return {
+		        hours : hours,
+		        minutes : minutes,
+		        seconds : seconds,
+		        miliseconds:miliseconds,
+		        tenthseconds: tenthseconds,
+		        clock : hours + ":" + minutes + ":" + seconds + "." + tenthseconds
+	    	};
+	}
+
+
+
+    </script>
+ </body>
+ </html>
