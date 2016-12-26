@@ -422,7 +422,7 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 		       	
 		    	socket.on('TimeChange', function(newtime){
 		    		time = newtime;
-		    		Pause();
+		    		
 		    	});
 
 		    	socket.on('SeparatorChange', function(newIsUnderMin){
@@ -544,7 +544,7 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 					
 					
 					isTextArea = false;
-					Pause();
+					Play();
 					$('#Time').css("left", "251px");
 					$('#Time').css("top", "69px");
 					$('#timeSeparator').removeClass("btn");
@@ -661,6 +661,10 @@ function ToTextArea(id){
 		}
 
 		var timeObject =  convertMillisecondsToDigitalClock(time);
+		if (timeObject.minutes >= 10) {
+			console.log("aYe");
+			$('#Time').css('left', '213');
+		}
 		if (timeObject.minutes == 0) {
 			isUnderMin = true;
 			$('#minutesSlot').text(timeObject.seconds);
