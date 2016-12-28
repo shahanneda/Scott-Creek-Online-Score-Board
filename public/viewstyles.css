@@ -463,3 +463,11 @@ button.button.side_left {
 button.button.checked {
     background: #c7c7c7;
 }
+
+.doubleDigitsTime{
+left: 213px !important;
+
+}
+.doubleDigitsTimeSeconds{
+	left: 229px !important;
+}

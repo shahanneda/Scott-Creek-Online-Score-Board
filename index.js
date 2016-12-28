@@ -4,14 +4,75 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
+var credentials = require('./credentials');
+var cookieParser = require('cookie-parser'); 
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+// in latest body-parser use like below.
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser(credentials.key));
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
 // Routing
+
+
+
+
+
+
+app.post('/loginapi', function (req, res ) {
+	if (req.signedCookies.loggedin == "true") {
+		res.sendFile(__dirname +'/public/index.html');
+		return;
+	}
+
+	if(req.body.username == credentials.username && req.body.password == credentials.password){
+			res.sendFile( __dirname +'/public/goto.html');
+	  	let options = {
+	        maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+	        httpOnly: true, 
+	        signed: true // Indicates if the cookie should be signed
+	    }
+
+	    // Set cookie
+	    res.cookie('loggedin', 'true', options) // options is optional
+
+	   
+
+	}else{
+		res.sendFile( __dirname +'/public/login.html');
+	}
+
+});
+
+app.get('/index', function(req, res){
+	if (req.signedCookies.loggedin == "true") {
+		res.sendFile(__dirname +'/public/index.html');
+	}else{
+		res.sendFile( __dirname +'/public/login.html');
+	}
+    
+
+});
+
+
+
+app.get('/', function(req, res){
+	res.sendFile( __dirname +'/public/login.html');
+
+
+});
+
 app.use(express.static(__dirname + '/public'));
+
+
+
+
 
 var homeScore 
 var guestScore  ;
@@ -22,7 +83,7 @@ var timeoutshome ;
 var period ;
 var time ;
 var isUnderMin;
-
+var isPaused;
 
 var hiddenFields = [];
 
@@ -39,6 +100,7 @@ function setDefaults(){
 	 hiddenFields.forEach(function(data){
 	 	data.isVisible = true;
 	 });
+
 
 	 
 }
@@ -62,6 +124,10 @@ io.on('connection', function(socket){
 				io.emit('toggleField',data);
 
 			});
+
+			if (isPaused) {
+	 			io.emit("TimePause", time);
+	 		}
 				
 			
 
@@ -141,14 +207,17 @@ io.on('connection', function(socket){
 		socket.on("TimePlay", function(newtime){
 			io.emit("TimePlay", newtime);
 			time=newtime;
+			isPaused =false;
 		});
 		socket.on('TimePause' , function(newtime){
 			io.emit("TimePause", newtime);
 			time=newtime;
+			isPaused= true;
 		});
 		socket.on('TimeChange' , function(newtime){
 			io.emit("TimeChange", newtime);
 			time = newtime;
+			
 		});
 		socket.on('SeparatorChange', function(newIsUnderMin){
 			io.emit('SeparatorChange', newIsUnderMin);
@@ -166,6 +235,10 @@ io.on('connection', function(socket){
 
 
 setInterval(function(){
+	if (isPaused) {
+		return;
+
+	}
 	if(Math.floor(time - 10) <= 0){time = 0}else{
 		time = time - 10;
 	}

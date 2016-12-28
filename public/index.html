@@ -145,6 +145,7 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 		       });		     
 		        socket.on('HomeScoreChange', function(new_score){		         
 		          $('#HomeScore').children('h2').html(new_score);
+		          
 		        });
 
 		        //GUEST SCORE
@@ -544,7 +545,8 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 					
 					
 					isTextArea = false;
-					Play();
+					
+					socket.emit('TimePause', time);
 					$('#Time').css("left", "251px");
 					$('#Time').css("top", "69px");
 					$('#timeSeparator').removeClass("btn");
@@ -661,10 +663,19 @@ function ToTextArea(id){
 		}
 
 		var timeObject =  convertMillisecondsToDigitalClock(time);
-		if (timeObject.minutes >= 10) {
+		if (timeObject.minutes >= 10 && timeObject.seconds >= 10) {
 			console.log("aYe");
-			$('#Time').css('left', '213');
+			$('#Time').addClass('doubleDigitsTime');
+		}else{
+			$('#Time').removeClass('doubleDigitsTime');
 		}
+		if (timeObject.minutes >= 10 && timeObject.seconds < 10) {
+			
+			$('#Time').addClass('doubleDigitsTimeSeconds');
+		}else{
+			$('#Time').removeClass('doubleDigitsTimeSeconds');
+		}
+		
 		if (timeObject.minutes == 0) {
 			isUnderMin = true;
 			$('#minutesSlot').text(timeObject.seconds);
