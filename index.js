@@ -59,10 +59,26 @@ app.get('/index', function(req, res){
     
 
 });
+app.get('/index.html', function(req, res){
+	if (req.signedCookies.loggedin == "true") {
+		res.sendFile(__dirname +'/public/index.html');
+	}else{
+		res.sendFile( __dirname +'/public/login.html');
+	}
+    
 
+});
 
+app.get('/view', function(req,res){
+	res.sendFile(__dirname +"/public/view.html");
+
+});
 
 app.get('/', function(req, res){
+	if (req.signedCookies.loggedin == "true") {
+		res.sendFile(__dirname +'/public/index.html');
+		return;
+	}
 	res.sendFile( __dirname +'/public/login.html');
 
 
@@ -226,6 +242,10 @@ io.on('connection', function(socket){
 				
 		socket.on('reset', function(){
 			setDefaults();
+			AllEmit();
+
+		});
+		socket.on('GetAll', function(){
 			AllEmit();
 
 		});
