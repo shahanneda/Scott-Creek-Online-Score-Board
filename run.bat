@@ -1,2 +1,2 @@
-start chrome http://127.0.0.1:3000/view.html
+start chrome http://scorescms.tk/view
 node index.js

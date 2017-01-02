@@ -163,6 +163,7 @@
 				});
 		    	
 		       socket.on("start", function(){
+		       	console.log("START");
 		       		if (parseInt($('#Period').children('h2').text()) >= 10) {
 		       			//convertToDoubleDigits('#Period');
 		       			$('#Period').addClass("ConvertedToDoubleDigits");
@@ -268,6 +269,7 @@
 		       	if ($(name).hasClass('ConvertedToSingleDigits')) {
 					return;
 		       	}
+
 		       	console.log('Converiting ti single digits');
 		       	$(name).addClass("ConvertedToSingleDigits");
 		       	$(name).removeClass('ConvertedToDoubleDigits');
@@ -278,61 +280,63 @@
 		       	console.log(amount);
 		      	 $(name).css('left',parseInt($(name).css('left') ) + amount);
 		       }
+		       setTimeout(function(){
+			       setInterval(function(){
+			       		if (parseInt($('#Period').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#Period');
+			       		}	
+			       		if (parseInt($('#Period').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#Period');
+			       		}	
+			       		
+			       		if (parseInt($('#GuestTimeouts').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#GuestTimeouts');
+			       		}	
+			       		if (parseInt($('#GuestTimeouts').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#GuestTimeouts');
+			       		}	
 
-		       setInterval(function(){
-		       		if (parseInt($('#Period').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#Period');
-		       		}	
-		       		if (parseInt($('#Period').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#Period');
-		       		}	
-		       		
-		       		if (parseInt($('#GuestTimeouts').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#GuestTimeouts');
-		       		}	
-		       		if (parseInt($('#GuestTimeouts').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#GuestTimeouts');
-		       		}	
-
-		       		if (parseInt($('#HomeTimeouts').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#HomeTimeouts');
-		       		}	
-		       		if (parseInt($('#HomeTimeouts').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#HomeTimeouts');
-		       		}	
-
-
-		       		if (parseInt($('#FoulsGuest').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#FoulsGuest');
-		       		}	
-		       		if (parseInt($('#FoulsGuest').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#FoulsGuest');
-		       		}
-
-		       		if (parseInt($('#FoulsHome').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#FoulsHome');
-		       		}	
-		       		if (parseInt($('#FoulsHome').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#FoulsHome');
-		       		}
+			       		if (parseInt($('#HomeTimeouts').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#HomeTimeouts');
+			       		}	
+			       		if (parseInt($('#HomeTimeouts').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#HomeTimeouts');
+			       		}	
 
 
-		       		if (parseInt($('#ScoreGuest').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#ScoreGuest');
-		       		}	
-		       		if (parseInt($('#HomeScore').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#HomeScore');
-		       		}
+			       		if (parseInt($('#FoulsGuest').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#FoulsGuest');
+			       		}	
+			       		if (parseInt($('#FoulsGuest').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#FoulsGuest');
+			       		}
 
-		       		if (parseInt($('#HomeScore').children('h2').text()) >= 10) {
-		       			convertToDoubleDigits('#HomeScore');
-		       		}	
-		       		if (parseInt($('#ScoreGuest').children('h2').text()) <= 9) {
-		       			convertToSingleDigits('#ScoreGuest');
-		       		}
+			       		if (parseInt($('#FoulsHome').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#FoulsHome');
+			       		}	
+			       		if (parseInt($('#FoulsHome').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#FoulsHome');
+			       		}
 
 
-		       }, 100);
+			       		if (parseInt($('#ScoreGuest').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#ScoreGuest');
+			       		}	
+			       		if (parseInt($('#HomeScore').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#HomeScore');
+			       		}
+
+			       		if (parseInt($('#HomeScore').children('h2').text()) >= 10) {
+			       			convertToDoubleDigits('#HomeScore');
+			       		}	
+			       		if (parseInt($('#ScoreGuest').children('h2').text()) <= 9) {
+			       			convertToSingleDigits('#ScoreGuest');
+			       		}
+
+
+			       }, 100);
+
+			    },500);
 
 
 
@@ -421,16 +425,19 @@ function ToTextArea(id){
 	$('#timeSeparator').addClass("btn");
 }
 
-//GET THE TIME
+var oldTime = Date.now();
 		setInterval(function(){
+		
 		if(isPaused){
+
 			return
 		}
-		if(Math.floor(time - 100) <= 0){time = 0}else{
-			time = time - 100;
+
+		if(Math.floor(time - (Date.now()- oldTime)) <= 0){time = 0}else{
+			time = time - (Date.now()- oldTime);
 		}
 		
-		
+		oldTime = Date.now();
 	}, 100);
 
 //UPDATE THE BOARD
@@ -443,7 +450,7 @@ function ToTextArea(id){
 
 		var timeObject =  convertMillisecondsToDigitalClock(time);
 		if (timeObject.minutes >= 10 && timeObject.seconds >= 10) {
-			console.log("aYe");
+			
 			$('#Time').addClass('doubleDigitsTime');
 		}else{
 			$('#Time').removeClass('doubleDigitsTime');
