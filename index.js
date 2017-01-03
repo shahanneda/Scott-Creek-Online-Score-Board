@@ -1,5 +1,18 @@
 
-//Needs Express and socket io
+/*
+SCOTT CREEK SCORE BOARD
+-SHAHAN NEDA
+
+SHAHAN.NEDA@GMAIL.COM
+https://github.com/shahanneda
+
+
+
+*/
+
+
+
+//Get needs
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
@@ -10,7 +23,7 @@ var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-// in latest body-parser use like below.
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(credentials.key));
 
@@ -34,14 +47,13 @@ app.post('/loginapi', function (req, res ) {
 	if(req.body.username == credentials.username && req.body.password == credentials.password){
 			res.sendFile( __dirname +'/public/goto.html');
 	  	let options = {
-	        maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+	        maxAge: 1000 * 60 * 60, 
 	        httpOnly: true, 
-	        signed: true // Indicates if the cookie should be signed
+	        signed: true 
 	    }
 
 	    // Set cookie
-	    res.cookie('loggedin', 'true', options) // options is optional
-
+	    res.cookie('loggedin', 'true', options);
 	   
 
 	}else{
@@ -87,7 +99,7 @@ app.get('/', function(req, res){
 app.use(express.static(__dirname + '/public'));
 
 
-
+// STORAGE
 
 
 var homeScore 
@@ -124,7 +136,7 @@ setDefaults();
 io.on('connection', function(socket){
 		io.emit('start');
 		AllEmit();
-
+//LISTEN AND EMIT:
 
 		function AllEmit(){
 			io.emit('HomeScoreChange', homeScore);
@@ -253,17 +265,21 @@ io.on('connection', function(socket){
 
 });
 
+//MAIN TIME LOOP
+var oldTime = Date.now();
+		setInterval(function(){
+		
+		if(isPaused){
 
-setInterval(function(){
-	if (isPaused) {
-		return;
+			return
+		}
 
-	}
-	if(Math.floor(time - 10) <= 0){time = 0}else{
-		time = time - 10;
-	}
-	
-}, 10);
+		if(Math.floor(time - (Date.now()- oldTime)) <= 0){time = 0}else{
+			time = time - (Date.now()- oldTime);
+		}
+		
+		oldTime = Date.now();
+	}, 100);
 
 
 // CONVERT MILLISECONDS TO DIGITAL CLOCK FORMAT
