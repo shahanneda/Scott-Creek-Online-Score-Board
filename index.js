@@ -112,7 +112,7 @@ var period ;
 var time ;
 var isUnderMin;
 var isPaused;
-
+var CPossession;
 var hiddenFields = [];
 
 function setDefaults(){
@@ -123,6 +123,7 @@ function setDefaults(){
 	 timeoutsguest = '0';
 	 timeoutshome = '0';
 	 period = '0';
+	  CPossession = "Home";
 	 time = 0;
 	 isUnderMin;
 	 hiddenFields.forEach(function(data){
@@ -147,7 +148,7 @@ io.on('connection', function(socket){
 			io.emit('HomeFoulChange', foulshome);
 			io.emit('PeriodChange', period);
 			io.emit('TimeChange', time);
-
+			io.emit('Possession', CPossession);
 			hiddenFields.forEach(function(data){
 				io.emit('toggleField',data);
 
@@ -260,6 +261,10 @@ io.on('connection', function(socket){
 		socket.on('GetAll', function(){
 			AllEmit();
 
+		});
+		socket.on('Possession', function (data){
+			CPossession = data;
+			io.emit('Possession', data);
 		});
 
 
