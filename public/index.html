@@ -13,7 +13,7 @@ https://github.com/shahanneda
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Scott Creek Scoreboard</title>
 		<link href="styles.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		
 	</head>
@@ -95,23 +95,24 @@ https://github.com/shahanneda
 		</div>
 
 
-<div data-role="page">
+
   
 
-  <div data-role="main" class="ui-content">
-    <form method="post" action="demoform.asp">
-      <fieldset data-role="controlgroup" data-type="horizontal">
+ 
+    <form method="post" id="PossessionForm" >
+      
       <legend id ="Possession"><img src="images/possession.png"></legend>
         
-        <label for="HOMEPOS">HOME</label>
-        <input type="radio" name="Possession" id="HOMEPOS" value="HOMEPOS"><label for="GUESTPOS">GUEST</label>
+        <label for="HOMEPOS" class="btnPos">HOME</label>
+        <input type="radio" name="Possession" id="HOMEPOS" value="HOMEPOS">
+        <label for="GUESTPOS" class="btnPos">GUEST</label>
         <input type="radio" name="Possession" id="GUESTPOS" value="GUESTPOS">
-      </fieldset>
+      
 
      
      
     </form>
-  </div>
+
 </div>
 
 		
@@ -127,7 +128,7 @@ https://github.com/shahanneda
 
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+ 
 	<script>
 
 	//TODO add remove button after save
@@ -135,6 +136,7 @@ https://github.com/shahanneda
 	var isTextArea;
 	var isUnderMin;
 	var time;
+	var  oldTime = Date.now();
 alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,frameless:!1,maintainFocus:!0,maximizable:!0,modal:!0,movable:!0,moveBounded:!1,overflow:!0,padding:!0,pinnable:!0,pinned:!0,preventBodyShift:!1,resizable:!0,startMaximized:!1,transition:"pulse",notifier:{delay:5,position:"bottom-right"},glossary:{title:"Are You Sure?",ok:"OK",cancel:"Cancel"},theme:{input:"ajs-input",ok:"ajs-ok",cancel:"ajs-cancel"}};
 	
 	    $(document).ready(function() {
@@ -458,18 +460,20 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 
 		       socket.on("TimePlay", function(newtime){
 		       	time = newtime;
+		       	console.log(newtime + "  -In Play");
 		       		Play();
 		       });
 		       
 		       
 		       socket.on('TimePause', function(newtime){
 		       	time = newtime;
+				console.log(newtime + "  -In Pause");
 				Pause();
 		       });
 		       	
 		    	socket.on('TimeChange', function(newtime){
 		    		time = newtime;
-		    		
+		    		console.log(newtime + "  -In Change");
 		    	});
 
 		    	socket.on('SeparatorChange', function(newIsUnderMin){
@@ -478,8 +482,9 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 
 
 		        $('#Pause').click(function(){
-					if(isTextArea)
+					if(isTextArea){
 		        		return
+					}
 					
 					socket.emit("TimePause", time);
 					Pause();
@@ -619,13 +624,16 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 					
 					
 					isTextArea = false;
-					
+					socket.emit('TimeChange', time);
+					console.log(time + "  -In Save");
 					socket.emit('TimePause', time);
+
 					$('#Time').css("left", "251px");
 					$('#Time').css("top", "69px");
 					$('#timeSeparator').removeClass("btn");
-					socket.emit('TimeChange', time);
+					
 					socket.emit('SeparatorChange', isUnderMin);
+
 			}
 
 
@@ -717,13 +725,13 @@ alertify.defaults={autoReset:!0,basic:!1,closable:!0,closableByDimmer:!0,framele
 					console.log("I GOT " + data);
 					if (data == 'Home') {
 						console.log("SETTINg HOME");
-						$('#HOMEPOS').prop('checked',true).checkboxradio("refresh");
-						$('#GUESTPOS').prop('checked', false).checkboxradio("refresh");
+						$("label[for='HOMEPOS']").prop('class','btnPosClicked');
+						$("label[for='GUESTPOS']").prop('class', 'btnPos');
 					}
 					if (data == 'Guest') {
 						console.log("SETTING GUEST");
-						$('#GUESTPOS').prop('checked', true).checkboxradio("refresh");
-						$('#HOMEPOS').prop('checked', false).checkboxradio("refresh");
+						$("label[for='GUESTPOS']").prop('class', 'btnPosClicked');
+						$("label[for='HOMEPOS']").prop('class', 'btnPos' );
 
 				}
 					
@@ -743,6 +751,7 @@ function Pause(){
 function Play(){
 	$('#Play').fadeOut("100");
 	$('#Pause').fadeIn("100");
+	oldTime = Date.now();
 	isPaused=false;
 	
 }	
@@ -769,7 +778,7 @@ function ToTextArea(id){
 }
 
 //GET THE TIME
-var oldTime = Date.now();
+ oldTime = Date.now();
 		setInterval(function(){
 		
 		if(isPaused){

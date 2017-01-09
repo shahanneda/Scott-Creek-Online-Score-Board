@@ -11,7 +11,7 @@
 	 margin-left: auto;
 	 margin-right: auto;
 	 width: 680px;
-	 height: 423px;
+	 height: 1057px;
 	 overflow: hidden;
 	 z-index:0;
 	} 
@@ -167,10 +167,10 @@
 } 
 
  #HomeLabelTimeouts 
-{ 
-	 left: 340px; 
-	 top: 345px; 
-	 position: absolute; 
+{
+	 left: 340px;
+	 top: 345px;
+	 position: absolute;
 	 width: 100px;
 	 height: 15px;
 	 z-index:16;
@@ -179,7 +179,7 @@
  #HomeTimeouts 
 {
 	 left: 380px;
-	 top: 320px;
+	 top: 324px;
 	 position: absolute;
 	 width: 12px;
 	 height: 16px;
@@ -219,7 +219,7 @@
  #GuestTimeouts 
 {
 	 left: 249px;
-	 top: 320px;
+	 top: 324px;
 	 position: absolute;
 	 width: 12px;
 	 height: 16px;
@@ -331,7 +331,7 @@
     color: black;
 }
 
-.smallerText{font-size: 38px;}
+.smallerText{font-size: 38px;margin: top;}
 .periodText{
 
 
@@ -470,4 +470,52 @@ left: 213px !important;
 }
 .doubleDigitsTimeSeconds{
 	left: 229px !important;
+}
+
+.btnPos {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    float: left;
+    border-width: 0.00000000000000001px;
+    border-color: black;
+    border-style: solid;
+    margin-top: 10px;
+    font-family: -webkit-pictograph;
+}
+.btnPosClicked {
+    background-color: black;
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    float: left;
+    border-width: 0.00000000000000001px;
+    border-color: black;
+    border-style: solid;
+    margin-top: 10px;
+    font-family: -webkit-pictograph;
+}
+input[type="radio"]{
+	display: none;
+}
+#PossessionForm {
+	position: relative;
+	top: 41%;
+	/* top: 748px; */
+	/* bottom: -80px; */
+	left: 28%;
+	margin: 5px;
+}
+legend#Possession {
+    position: relative;
+    left: 30px;
 }

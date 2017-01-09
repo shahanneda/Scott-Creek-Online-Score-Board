@@ -11,7 +11,7 @@
 	 margin-left: auto;
 	 margin-right: auto;
 	 width: 680px;
-	 height: 423px;
+	 height: 776px;
 	 overflow: hidden;
 	 z-index:0;
 	} 
@@ -258,7 +258,7 @@
 
  #HomeScore 
 {
-	 left: 448px;
+	 left: 462px;
 	 top: 153px;
 	 position: absolute;
 	 width: 55px;
@@ -298,7 +298,7 @@
 
  #ScoreGuest 
 {
-	 left: 128px;
+	 left: 147px;
 	 top: 152px;
 	 position: absolute;
 	 width: 55px;
@@ -362,8 +362,8 @@
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   position: absolute;
-  left: 230px;
-  z-index: 15;
+  left: 140px;
+  z-index: 99;
   top: 151px;
 }
 
@@ -377,6 +377,36 @@
   text-decoration: none;
 }
 
+
+#cancel {
+  background: #ff0000;
+  background-image: -webkit-linear-gradient(top, #ff0000, #ff0000);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #ff0000, #ff0000);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  color: #ffffff;
+  font-size: 60px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  position: absolute;
+  left: 320px;
+  z-index: 99;
+  top: 151px;
+}
+
+#cancel:hover {
+  background: #ff5252;
+  background-image: -webkit-linear-gradient(top, #ff5252, #ff5252);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #ee1414, #ee1414);
+  text-decoration: none;
+}
 .btn {
   background: #3498db;
   background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
@@ -399,16 +429,122 @@
   text-decoration: none;
 }
 
+.btn-reset:hover{
+	background-color: #f13030 !important;
+	color:white;
+
+}
 #ControlPanel{
 
 	border-width: 10px;
-    border-color: blue;
+    border-color: black;
     border-style: solid;
     position: absolute;
     bottom: -3%;
-    width: 94%;
-    height: 24%;
-    margin: 40px;
-    background: lightblue;
+    
+    height: 10%;
+    /*margin: 40px;*/
+    background: white;
     text-align: center;
+    left: 0px;
+    right: 0px;
+    border-radius: 52px;
+}
+
+button.button {
+  background: white;
+    color: black;
+    float: left;
+    position: relative;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 16.66%;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0px;
+    font-size: 50px;
+    text-align: center;
+}
+@media(max-width: 1324px){
+	button.button {
+  
+    font-size: 25px;
+    
+}
+
+}
+button.button:hover {
+  background: #bfbfbf;
+}
+
+button.button.side_right {
+    border-top-right-radius: 37px !important;
+    border-bottom-right-radius: 37px !important;
+}
+
+button.button.side_left {
+    border-top-left-radius: 37px !important;
+    border-bottom-left-radius: 37px !important;
+}
+
+button.button.checked {
+    background: #c7c7c7;
+}
+.doubleDigitsTime{
+left: 213px !important;
+
+}
+.doubleDigitsTimeSeconds{
+	left: 229px !important;
+}
+
+.btnPos {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    float: left;
+    border-width: 0.00000000000000001px;
+    border-color: black;
+    border-style: solid;
+    margin-top: 10px;
+    font-family: -webkit-pictograph;
+}
+.btnPosClicked {
+    background-color: black;
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    float: left;
+    border-width: 0.00000000000000001px;
+    border-color: black;
+    border-style: solid;
+    margin-top: 10px;
+    font-family: -webkit-pictograph;
+}
+input[type="radio"]{
+	display: none;
+}
+#PossessionForm {
+	position: relative;
+	top: 41%;
+	/* top: 748px; */
+	/* bottom: -80px; */
+	left: 60%;
+	margin: 5px;
+}
+legend#Possession {
+    position: relative;
+    left: 30px;
 }

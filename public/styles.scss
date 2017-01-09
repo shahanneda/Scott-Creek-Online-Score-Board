@@ -1,0 +1,330 @@
+ body {
+	margin: 0;
+	padding: 0;
+ }
+ 
+ #background 
+{ 
+	 left: 0px; 
+	 top: 0px; 
+	 position: relative; 
+	 margin-left: auto; 
+	 margin-right: auto; 
+	 width: 657px;
+	 height: 423px; 
+	 overflow: hidden;
+	 z-index:0;
+	} 
+
+ #Time 
+{ 
+	 left: 254px; 
+	 top: 89px; 
+	 position: absolute; 
+	 width: 122px;
+	 height: 42px;
+	 z-index:1;
+} 
+
+ #Pause 
+{ 
+	 left: 255px; 
+	 top: 10px; 
+	 position: absolute; 
+	 width: 50px;
+	 height: 64px;
+	 z-index:2;
+} 
+
+ #Play 
+{ 
+	 left: 344px; 
+	 top: 10px; 
+	 position: absolute; 
+	 width: 52px;
+	 height: 64px;
+	 z-index:3;
+} 
+
+ #LabelPeriod 
+{ 
+	 left: 268px; 
+	 top: 202px; 
+	 position: absolute; 
+	 width: 95px;
+	 height: 20px;
+	 z-index:4;
+} 
+
+ #Period 
+{ 
+	 left: 309px; 
+	 top: 227px; 
+	 position: absolute; 
+	 width: 15px;
+	 height: 19px;
+	 z-index:5;
+} 
+
+ #PeriodDown 
+{ 
+	 left: 290px; 
+	 top: 146px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:6;
+} 
+
+ #PeriodUp 
+{ 
+	 left: 288px; 
+	 top: 252px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:7;
+} 
+
+ #LabelFouls 
+{ 
+	 left: 0px; 
+	 top: 219px; 
+	 position: absolute; 
+	 width: 81px;
+	 height: 20px;
+	 z-index:8;
+} 
+
+ #FoulsGuest 
+{ 
+	 left: 34px; 
+	 top: 244px; 
+	 position: absolute; 
+	 width: 15px;
+	 height: 19px;
+	 z-index:9;
+} 
+
+ #GuestFoulsUp 
+{ 
+	 left: 15px; 
+	 top: 163px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:10;
+} 
+
+ #GuestFoulsDown 
+{ 
+	 left: 13px; 
+	 top: 269px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:11;
+} 
+
+ #FoulsGuest_0 
+{ 
+	 left: 576px; 
+	 top: 226px; 
+	 position: absolute; 
+	 width: 81px;
+	 height: 20px;
+	 z-index:12;
+} 
+
+ #LabelFouls_0 
+{ 
+	 left: 610px; 
+	 top: 251px; 
+	 position: absolute; 
+	 width: 15px;
+	 height: 19px;
+	 z-index:13;
+} 
+
+ #HomeFoulsUp 
+{ 
+	 left: 591px; 
+	 top: 170px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:14;
+} 
+
+ #HomeFoulsDown 
+{ 
+	 left: 589px; 
+	 top: 276px; 
+	 position: absolute; 
+	 width: 54px;
+	 height: 47px;
+	 z-index:15;
+} 
+
+ #HomeLabelTimeouts 
+{ 
+	 left: 340px; 
+	 top: 345px; 
+	 position: absolute; 
+	 width: 100px;
+	 height: 15px;
+	 z-index:16;
+} 
+
+ #HomeTimeouts 
+{ 
+	 left: 384px; 
+	 top: 365px; 
+	 position: absolute; 
+	 width: 12px;
+	 height: 16px;
+	 z-index:17;
+} 
+
+ #HomeTimeoutsUp 
+{ 
+	 left: 369px; 
+	 top: 301px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:18;
+} 
+
+ #HomeTimeoutsDown 
+{ 
+	 left: 367px; 
+	 top: 386px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:19;
+} 
+
+ #GuestLabelTimeouts 
+{ 
+	 left: 210px; 
+	 top: 345px; 
+	 position: absolute; 
+	 width: 100px;
+	 height: 15px;
+	 z-index:20;
+} 
+
+ #GuestTimeouts 
+{ 
+	 left: 254px; 
+	 top: 365px; 
+	 position: absolute; 
+	 width: 12px;
+	 height: 16px;
+	 z-index:21;
+} 
+
+ #GuestTimeoutsUp 
+{ 
+	 left: 239px; 
+	 top: 301px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:22;
+} 
+
+ #GuestTimeoutsDown 
+{ 
+	 left: 237px; 
+	 top: 386px; 
+	 position: absolute; 
+	 width: 43px;
+	 height: 37px;
+	 z-index:23;
+} 
+
+ #LabelHome 
+{ 
+	 left: 413px; 
+	 top: 186px; 
+	 position: absolute; 
+	 width: 135px;
+	 height: 34px;
+	 z-index:24;
+} 
+
+ #HomeScore 
+{ 
+	 left: 454px; 
+	 top: 230px; 
+	 position: absolute; 
+	 width: 55px;
+	 height: 33px;
+	 z-index:25;
+} 
+ #HomeScore h2{
+font-size: 900px;
+color: red;
+ }
+ #HomeScoreUp 
+{ 
+	 left: 434px; 
+	 top: 86px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:26;
+} 
+
+ #HomeScoreDown 
+{ 
+	 left: 431px; 
+	 top: 274px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:27;
+} 
+
+ #LabelGuest 
+{ 
+	 left: 99px; 
+	 top: 177px; 
+	 position: absolute; 
+	 width: 131px;
+	 height: 34px;
+	 z-index:28;
+} 
+
+ #ScoreGuest 
+{ 
+	 left: 138px; 
+	 top: 221px; 
+	 position: absolute; 
+	 width: 55px;
+	 height: 33px;
+	 z-index:29;
+} 
+
+ #GuestScoreUp 
+{ 
+	 left: 117px; 
+	 top: 86px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:30;
+} 
+
+ #GuestScoreDown 
+{ 
+	 left: 115px; 
+	 top: 274px; 
+	 position: absolute; 
+	 width: 96px;
+	 height: 84px;
+	 z-index:31;
+} 

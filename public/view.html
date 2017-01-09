@@ -15,7 +15,7 @@ IT IS A CLONE OF THIS FILE WITH BETTER COMMENTS
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Scott Creek Scoreboard</title>
-		<link href="styles.css" rel="stylesheet" type="text/css">
+		<link href="viewstyles.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 
@@ -28,7 +28,7 @@ IT IS A CLONE OF THIS FILE WITH BETTER COMMENTS
 			
 			</div>
 
-			<div>
+			
 			<div class="period">
 				<div id="LabelPeriod"><img src="images/LabelPeriod.png"></div>
 				<div id="Period"><h2 class="smallerText">0</h2></div>
@@ -65,16 +65,23 @@ IT IS A CLONE OF THIS FILE WITH BETTER COMMENTS
 			
 			<div id="LabelGuest"><img src="images/LabelGuest.png"></div>
 			<div id="ScoreGuest"><h2 class="Scores">0</h2></div>
+			</div>
 			
+	<form method="post" id="PossessionForm" >
+		      	<legend id ="Possession"><img src="images/possession.png"></legend>     
+		        <label for="HOMEPOS" class="btnPos">HOME</label>
+		        <input type="radio" name="Possession" id="HOMEPOS" value="HOMEPOS">
+		        <label for="GUESTPOS" class="btnPos">GUEST</label>
+		        <input type="radio" name="Possession" id="GUESTPOS" value="GUESTPOS">
+    </form>
+				
+	
+
 </div>			
 
 
 
 			
-			
-		</div>
-		
-	
 
 
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -84,7 +91,7 @@ IT IS A CLONE OF THIS FILE WITH BETTER COMMENTS
 	var isTextArea;
 	var isUnderMin;
 	var time;
-
+	var  oldTime = Date.now();
 
 	    $(document).ready(function() {
 		        var socket = io();
@@ -354,6 +361,25 @@ IT IS A CLONE OF THIS FILE WITH BETTER COMMENTS
 
 
 
+
+				socket.on('Possession', function(data){
+					console.log("I GOT " + data);
+					if (data == 'Home') {
+						console.log("SETTINg HOME");
+						$("label[for='HOMEPOS']").prop('class','btnPosClicked');
+						$("label[for='GUESTPOS']").prop('class', 'btnPos');
+					}
+					if (data == 'Guest') {
+						console.log("SETTING GUEST");
+						$("label[for='GUESTPOS']").prop('class', 'btnPosClicked');
+						$("label[for='HOMEPOS']").prop('class', 'btnPos' );
+
+				}
+					
+					
+					
+
+				});
 	});
 				
 				//
@@ -414,6 +440,7 @@ function Pause(){
 function Play(){
 	$('#Play').fadeOut("100");
 	$('#Pause').fadeIn("100");
+	oldTime = Date.now();
 	isPaused=false;
 	
 }	

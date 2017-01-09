@@ -114,7 +114,7 @@ var isUnderMin;
 var isPaused;
 var CPossession;
 var hiddenFields = [];
-
+var oldTime;
 function setDefaults(){
 	 homeScore = '0';
 	 guestScore  = '0';
@@ -129,6 +129,8 @@ function setDefaults(){
 	 hiddenFields.forEach(function(data){
 	 	data.isVisible = true;
 	 });
+ 	oldTime = Date.now();
+
 
 
 	 
@@ -235,13 +237,17 @@ io.on('connection', function(socket){
 		//TIME
 		socket.on("TimePlay", function(newtime){
 			io.emit("TimePlay", newtime);
-			time=newtime;
+			time =newtime;
 			isPaused =false;
+			console.log(newtime + "TIME PLAY");
+			oldTime = Date.now();
 		});
 		socket.on('TimePause' , function(newtime){
 			io.emit("TimePause", newtime);
 			time=newtime;
 			isPaused= true;
+			console.log(newtime + "TIME PASUE");
+
 		});
 		socket.on('TimeChange' , function(newtime){
 			io.emit("TimeChange", newtime);
@@ -271,7 +277,7 @@ io.on('connection', function(socket){
 });
 
 //MAIN TIME LOOP
-var oldTime = Date.now();
+oldTime = Date.now();
 		setInterval(function(){
 		
 		if(isPaused){
