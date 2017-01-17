@@ -10,21 +10,22 @@
 	 position: relative;
 	 margin-left: auto;
 	 margin-right: auto;
-	 width: 680px;
-	 height: 1057px;
+	 /* width: 1920px; */
+	 /* height: 1057px; */
 	 overflow: hidden;
 	 z-index:0;
 	} 
 
  #Time 
 {
-	 left: 251px;
+	 left: 274px;
 	 top: 69px;
 	 position: absolute;
 	 width: 881px;
 	 height: 42px;
 	 z-index:1;
-	 font-size: 75px;
+	 font-size: 196px;
+	 color: white;
 } 
 
  #Pause 
@@ -48,13 +49,14 @@
 } 
 
  #LabelPeriod 
-{ 
-	 left: 268px; 
-	 top: 202px; 
-	 position: absolute; 
+{
+	 left: 268px;
+	 top: 202px;
+	 position: absolute;
 	 width: 95px;
 	 height: 20px;
 	 z-index:4;
+	 color: white;
 } 
 
  #Period 
@@ -247,13 +249,14 @@
 } 
 
  #LabelHome 
-{ 
-	 left: 413px; 
-	 top: 186px; 
-	 position: absolute; 
+{
+	 left: 413px;
+	 top: 186px;
+	 position: absolute;
 	 width: 135px;
 	 height: 34px;
 	 z-index:24;
+	 color: white;
 } 
 
  #HomeScore 
@@ -327,11 +330,11 @@
 } 
 
 .Scores {
-    font-size: 68px;
-    color: black;
+    font-size: 238px;
+    color: white;
 }
 
-.smallerText{font-size: 38px;margin: top;}
+.smallerText{font-size: 122px;margin: top;color: white;}
 .periodText{
 
 
@@ -464,46 +467,17 @@ button.button.checked {
     background: #c7c7c7;
 }
 
-.doubleDigitsTime{
-left: 213px !important;
-
-}
+.doubleDigitsTime{left: 177px !important;}
 .doubleDigitsTimeSeconds{
 	left: 229px !important;
 }
 
 .btnPos {
-    background-color: #ffffff;
-    color: black;
-    padding: 10px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    cursor: pointer;
-    float: left;
-    border-width: 0.00000000000000001px;
-    border-color: black;
-    border-style: solid;
-    margin-top: 10px;
-    font-family: -webkit-pictograph;
+display: none;
+
+
 }
-.btnPosClicked {
-    background-color: black;
-    color: white;
-    padding: 10px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    cursor: pointer;
-    float: left;
-    border-width: 0.00000000000000001px;
-    border-color: black;
-    border-style: solid;
-    margin-top: 10px;
-    font-family: -webkit-pictograph;
-}
+.btnPosClicked {display: block !important;/* width: 85%; */}
 input[type="radio"]{
 	display: none;
 }
@@ -518,4 +492,10 @@ input[type="radio"]{
 legend#Possession {
     position: relative;
     left: 30px;
+}
+.doubleDigitsTimeSecondsMinutesSingle{
+left: 238px!important;
+}
+.timeZero{
+left: 271px !important;
 }
